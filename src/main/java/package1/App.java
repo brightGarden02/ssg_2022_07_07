@@ -12,13 +12,9 @@ public class App {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int idx = 1;
 
-    Map<Integer, Map<String, String>> map = new HashMap<>();
     public void run() throws IOException {
 
         System.out.println("== 명언 SSG ==");
-
-        Scanner sc = new Scanner(System.in);
-
 
         outer:
         while(true){
@@ -39,36 +35,31 @@ public class App {
 
         }
 
-        sc.close();
 
     }
 
     private void seeList() {
 
         System.out.println("번호 / 작가 / 명언");
-        for(Integer key : map.keySet()){
 
-            for(String key2 : map.get(key).keySet()){
-                System.out.println(key + " / " + key2 + " / " + map.get(key).get(key2));
-            }
-        }
 
     }
 
     private void registerWiseSayings() throws IOException {
 
+
         System.out.print("명언: ");
-        String wiseSaying = br.readLine();
+        String content = br.readLine();
 
         System.out.print("작가: ");
         String name = br.readLine();
 
-        Map<String, String> nameAndWiseSaying = new HashMap<>();
-        nameAndWiseSaying.put(name, wiseSaying);
 
-        map.put(idx, nameAndWiseSaying);
+        WiseSaying wiseSaying = new WiseSaying(idx, content, name);
+//        System.out.println(wiseSaying);
 
-        System.out.println(idx + "번 명언이 등록외었습니다.");
+        System.out.printf("%d번 명언이 등록되었습니다.\n", idx);
+
         idx++;
     }
 
