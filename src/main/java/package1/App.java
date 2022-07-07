@@ -3,13 +3,13 @@ package package1;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class App {
 
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+    List<WiseSaying> wiseSayingList = new ArrayList<>();
     int idx = 1;
 
     public void run() throws IOException {
@@ -41,7 +41,12 @@ public class App {
     private void seeList() {
 
         System.out.println("번호 / 작가 / 명언");
-
+        System.out.println("--------------------------");
+        for(int i = wiseSayingList.size()-1; i >= 0 ; i--){
+            System.out.println(wiseSayingList.get(i).getIdx() + " / " +
+                    wiseSayingList.get(i).getAuthor() + " / " +
+                    wiseSayingList.get(i).getContent());
+        }
 
     }
 
@@ -52,12 +57,9 @@ public class App {
         String content = br.readLine();
 
         System.out.print("작가: ");
-        String name = br.readLine();
+        String author = br.readLine();
 
-
-        WiseSaying wiseSaying = new WiseSaying(idx, content, name);
-//        System.out.println(wiseSaying);
-
+        wiseSayingList.add(new WiseSaying(idx, content, author));
         System.out.printf("%d번 명언이 등록되었습니다.\n", idx);
 
         idx++;
