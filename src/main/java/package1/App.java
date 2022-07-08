@@ -36,7 +36,9 @@ public class App {
                     }
                     break;
                 case "수정":
-                    modifyList();
+                    if(idNum != 0){
+                        modifyList(idNum);
+                    }
                     break;
                 case "종료":
                     break outer;
@@ -65,7 +67,27 @@ public class App {
 
     }
 
-    private void modifyList() {
+    private void modifyList(int idNum) throws IOException {
+
+        for(int i = 0; i < wiseSayingList.size(); i++){
+
+            if(wiseSayingList.get(i).getIdx() == idNum){
+
+                System.out.print("새 명언을 입력해주세요: ");
+                String newContent = br.readLine();
+
+                System.out.println(idNum + "번 명언을 수정합니다.");
+                System.out.println("기존 명언 : " + wiseSayingList.get(i).getContent());
+
+                wiseSayingList.get(i).setContent(newContent);
+
+                System.out.println("새 명언 : " + wiseSayingList.get(i).getContent());
+                System.out.println(idNum + "번 명언이 수정되었습니다.");
+                return;
+            }
+        }
+
+        System.out.println(idNum + "번 명언은 존재하지 않습니다.");
 
 
     }
