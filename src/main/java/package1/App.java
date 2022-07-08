@@ -20,6 +20,13 @@ public class App {
         while(true){
             System.out.print("명령) ");
             String cmd = br.readLine();
+            int idNum = 0;
+            if(cmd.contains("삭제") && cmd.contains("=")){
+
+                String[] arr = cmd.split("=");
+                idNum = Integer.parseInt(arr[1]);
+                cmd = "삭제";
+            }
 
             switch (cmd) {
                 case "등록":
@@ -29,7 +36,9 @@ public class App {
                     seeList();
                     break;
                 case "삭제":
-                    deleteList();
+                    if(idNum != 0){
+                        deleteList(idNum);
+                    }
                     break;
                 case "수정":
                     modifyList();
@@ -48,23 +57,18 @@ public class App {
 
     }
 
-    private void deleteList() throws IOException {
+    private void deleteList(int idNum) throws IOException {
 
-        System.out.print("지우고 싶은 명언의 번호를 입력하세요: ");
-        int number = Integer.parseInt(br.readLine());
-
-        if(wiseSayingList.size() < number){
-            System.out.println(number + "번 명언은 존재하지 않습니다..");
+        if(wiseSayingList.size() < idNum){
+            System.out.println(idNum + "번 명언은 존재하지 않습니다..");
             return;
         }
 
-        if(wiseSayingList.get(number-1).getIdx() == number){
-            wiseSayingList.remove(number-1);
-            System.out.println(number + "번 명언이 삭제되었습니다.");
+        if(wiseSayingList.get(idNum-1).getIdx() == idNum){
+            wiseSayingList.remove(idNum-1);
+            System.out.println(idNum + "번 명언이 삭제되었습니다.");
         }
-        else{
-            System.out.println(number + "번 명언은 존재하지 않습니다..");
-        }
+
     }
 
 
