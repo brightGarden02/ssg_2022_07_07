@@ -1,17 +1,15 @@
 package package1;
 
-import org.json.simple.JSONObject;
-
 import java.io.*;
 import java.util.*;
 
 public class App {
 
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
     List<WiseSaying> wiseSayingList = new ArrayList<>();
-    int idx = 1;
-
+    int idx = 0;
+    String cmd;
+    int idNum = 0;
     public void run() throws IOException {
 
         System.out.println("== 명언 SSG ==");
@@ -19,13 +17,10 @@ public class App {
         outer:
         while(true){
             System.out.print("명령) ");
-            String cmd = br.readLine();
-            int idNum = 0;
-            if(cmd.contains("삭제") && cmd.contains("=")){
+            cmd = br.readLine();
 
-                String[] arr = cmd.split("=");
-                idNum = Integer.parseInt(arr[1]);
-                cmd = "삭제";
+            if(cmd.contains("삭제") || cmd.contains("수정")){
+                cmd = splitDeleteOrModifyInformation(cmd);
             }
 
             switch (cmd) {
@@ -52,6 +47,24 @@ public class App {
 
     }
 
+
+    private String splitDeleteOrModifyInformation(String cmd) {
+
+        String[] deleteOrModify = cmd.split("\\?");
+
+        if(cmd.contains("=")){
+
+            String[] arr = cmd.split("=");
+            idNum = Integer.parseInt(arr[1]);
+            cmd = deleteOrModify[0];
+            return cmd;
+        }
+        else{
+            return deleteOrModify[0];
+        }
+
+    }
+
     private void modifyList() {
 
 
@@ -59,15 +72,17 @@ public class App {
 
     private void deleteList(int idNum) throws IOException {
 
-        if(wiseSayingList.size() < idNum){
-            System.out.println(idNum + "번 명언은 존재하지 않습니다..");
-            return;
+        for(int i = 0; i < wiseSayingList.size(); i++){
+
+            if(wiseSayingList.get(i).getIdx() == idNum){
+                wiseSayingList.remove(i);
+                System.out.println(idNum + "번 명언이 삭제되었습니다.");
+                idx--;
+                return;
+            }
         }
 
-        if(wiseSayingList.get(idNum-1).getIdx() == idNum){
-            wiseSayingList.remove(idNum-1);
-            System.out.println(idNum + "번 명언이 삭제되었습니다.");
-        }
+        System.out.println(idNum + "번 명언은 존재하지 않습니다..");
 
     }
 
@@ -92,12 +107,12 @@ public class App {
 
         System.out.print("작가: ");
         String author = br.readLine();
+        idx++;
 
         wiseSayingList.add(new WiseSaying(idx, author, content));
 
         System.out.printf("%d번 명언이 등록되었습니다.\n", idx);
 
-        idx++;
     }
 
 
