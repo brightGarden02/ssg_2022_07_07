@@ -1,8 +1,8 @@
 package package1;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import org.json.simple.JSONObject;
+
+import java.io.*;
 import java.util.*;
 
 public class App {
@@ -28,7 +28,12 @@ public class App {
                 case "목록":
                     seeList();
                     break;
-
+                case "삭제":
+                    deleteList();
+                    break;
+                case "수정":
+                    modifyList();
+                    break;
                 case "종료":
                     break outer;
             }
@@ -37,6 +42,31 @@ public class App {
 
 
     }
+
+    private void modifyList() {
+
+
+    }
+
+    private void deleteList() throws IOException {
+
+        System.out.print("지우고 싶은 명언의 번호를 입력하세요: ");
+        int number = Integer.parseInt(br.readLine());
+
+        if(wiseSayingList.size() < number){
+            System.out.println(number + "번 명언은 존재하지 않습니다..");
+            return;
+        }
+
+        if(wiseSayingList.get(number-1).getIdx() == number){
+            wiseSayingList.remove(number-1);
+            System.out.println(number + "번 명언이 삭제되었습니다.");
+        }
+        else{
+            System.out.println(number + "번 명언은 존재하지 않습니다..");
+        }
+    }
+
 
     private void seeList() {
 
@@ -59,7 +89,8 @@ public class App {
         System.out.print("작가: ");
         String author = br.readLine();
 
-        wiseSayingList.add(new WiseSaying(idx, content, author));
+        wiseSayingList.add(new WiseSaying(idx, author, content));
+
         System.out.printf("%d번 명언이 등록되었습니다.\n", idx);
 
         idx++;

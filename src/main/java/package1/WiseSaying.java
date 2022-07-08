@@ -3,8 +3,8 @@ package package1;
 public class WiseSaying {
 
     private int idx;
-    private String content;
     private String author;
+    private String content;
 
     public int getIdx() {
         return idx;
@@ -30,19 +30,19 @@ public class WiseSaying {
         this.author = author;
     }
 
-    public WiseSaying(int idx, String content, String author) {
+    public WiseSaying(int idx, String author, String content) {
 
         this.idx = idx;
-        this.content = content;
         this.author = author;
+        this.content = content;
     }
 
     @Override
     public String toString() {
         return "WiseSaying{" +
                 "idx=" + idx +
-                ", content='" + content + '\'' +
                 ", author='" + author + '\'' +
+                ", content='" + content + '\'' +
                 '}';
     }
 
