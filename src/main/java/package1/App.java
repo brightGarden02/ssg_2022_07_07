@@ -16,6 +16,7 @@ public class App {
 
         outer:
         while(true){
+
             System.out.print("명령) ");
             cmd = br.readLine();
 
@@ -55,7 +56,6 @@ public class App {
         String[] deleteOrModify = cmd.split("\\?");
 
         if(cmd.contains("=")){
-
             String[] arr = cmd.split("=");
             idNum = Integer.parseInt(arr[1]);
             cmd = deleteOrModify[0];
