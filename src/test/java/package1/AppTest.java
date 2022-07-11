@@ -31,4 +31,15 @@ public class AppTest {
 
     }
 
+    @Test
+    public void Rq_getPath() {
+
+        Rq rq = new Rq("삭제?id=1");
+
+        String path = rq.getPath();
+
+        assertEquals("삭제", path);
+
+    }
+
 }
