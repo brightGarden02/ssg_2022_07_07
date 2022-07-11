@@ -31,9 +31,6 @@ public class Rq {
             String paramName = paramNameAndValue[0];
             String paramValue = paramNameAndValue[1];
 
-            System.out.println("inputParamName: " + inputParamName +
-                    ", paramName_: " + paramName + ", paramValue: " + paramValue
-             );
 
             if(inputParamName.equals(paramName)) {
                 return Integer.parseInt(paramValue);

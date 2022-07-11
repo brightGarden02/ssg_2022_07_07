@@ -9,7 +9,6 @@ public class App {
     private List<WiseSaying> wiseSayingList = new ArrayList<>();
     private int idx = 0;
     String cmd;
-    int idNum = 0;
     public void run() throws IOException {
 
         System.out.println("== 명언 SSG ==");
@@ -38,15 +37,15 @@ public class App {
                 case "종료":
                     break outer;
             }
-
         }
-
 
     }
 
     private void modifyList(Rq rq) throws IOException {
 
-        if(idNum == 0) {
+        int paramId = rq.getIntParam("id", 0);
+
+        if(paramId == 0) {
             System.out.println("id를 입력해주세요");
             return;
         }
@@ -54,24 +53,23 @@ public class App {
 
         for(int i = 0; i < wiseSayingList.size(); i++){
 
-            if(wiseSayingList.get(i).getIdx() == idNum){
+            WiseSaying wiseSaying = wiseSayingList.get(i);
+
+            if(wiseSaying.getIdx() == paramId){
 
                 System.out.print("새 명언을 입력해주세요: ");
                 String newContent = br.readLine();
 
-                System.out.println(idNum + "번 명언을 수정합니다.");
+                System.out.println(paramId + "번 명언을 수정합니다.");
                 System.out.println("기존 명언 : " + wiseSayingList.get(i).getContent());
 
                 wiseSayingList.get(i).setContent(newContent);
 
                 System.out.println("새 명언 : " + wiseSayingList.get(i).getContent());
-                System.out.println(idNum + "번 명언이 수정되었습니다.");
+                System.out.println(paramId + "번 명언이 수정되었습니다.");
                 return;
             }
         }
-
-        System.out.println(idNum + "번 명언은 존재하지 않습니다.");
-
 
     }
 
@@ -84,16 +82,8 @@ public class App {
             return;
         }
 
-        WiseSaying foundWiseSaying = null;
+        WiseSaying foundWiseSaying = findById(paramId);
 
-        for(int i = 0; i < wiseSayingList.size(); i++){
-
-            WiseSaying wiseSaying = wiseSayingList.get(i);
-            if(wiseSaying.getIdx() == paramId){
-                foundWiseSaying = wiseSaying;
-                break;
-            }
-        }
 
         if(foundWiseSaying == null){
             System.out.println(paramId + "번 명언은 존재하지 않습니다..");
@@ -101,9 +91,23 @@ public class App {
         }
 
         wiseSayingList.remove(foundWiseSaying);
+
         System.out.println(paramId + "번 명언이 삭제되었습니다.");
         idx--;
 
+    }
+
+    private WiseSaying findById(int paramId) {
+
+        for(int i = 0; i < wiseSayingList.size(); i++){
+
+            WiseSaying wiseSaying = wiseSayingList.get(i);
+            if(wiseSaying.getIdx() == paramId){
+                return wiseSaying;
+            }
+        }
+
+        return null;
     }
 
 
@@ -123,7 +127,6 @@ public class App {
     }
 
     private void registerWiseSayings(Rq rq) throws IOException {
-
 
         System.out.print("명언: ");
         String content = br.readLine();
