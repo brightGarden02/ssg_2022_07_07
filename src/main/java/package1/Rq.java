@@ -3,23 +3,39 @@ package package1;
 public class Rq {
 
     String url;
+    String path;
+    String queryStr;
 
     public Rq(String url) {
         this.url = url;
+        String[] urlBits = url.split("\\?", 2);
+        this.path = urlBits[0];
+
+        if(urlBits.length == 2){
+            this.queryStr = urlBits[1];
+        }
+
     }
 
-    public int getIntParam(String paramName, int defaultValue) {
+    public int getIntParam(String inputParamName, int defaultValue) {
 
-        String[] urlBits = url.split("\\?", 2);
-        urlBits = urlBits[1].split("&");
+        if(queryStr == null){
+            return defaultValue;
+        }
 
-        for(String urlBit : urlBits) {
+        String[] bits = queryStr.split("&");
+
+        for(String urlBit : bits) {
 
             String[] paramNameAndValue = urlBit.split("=", 2);
-            String paramName_ = paramNameAndValue[0];
+            String paramName = paramNameAndValue[0];
             String paramValue = paramNameAndValue[1];
 
-            if(paramName.equals(paramName_)) {
+            System.out.println("inputParamName: " + inputParamName +
+                    ", paramName_: " + paramName + ", paramValue: " + paramValue
+             );
+
+            if(inputParamName.equals(paramName)) {
                 return Integer.parseInt(paramValue);
             }
         }
@@ -29,9 +45,8 @@ public class Rq {
     }
 
     public String getPath() {
-        String[] urlBits = url.split("\\?", 2);
 
-        return urlBits[0];
+        return path;
     }
 
 

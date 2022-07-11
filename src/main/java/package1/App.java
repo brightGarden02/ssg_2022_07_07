@@ -5,9 +5,9 @@ import java.util.*;
 
 public class App {
 
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    List<WiseSaying> wiseSayingList = new ArrayList<>();
-    int idx = 0;
+    private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private List<WiseSaying> wiseSayingList = new ArrayList<>();
+    private int idx = 0;
     String cmd;
     int idNum = 0;
     public void run() throws IOException {
@@ -20,26 +20,20 @@ public class App {
             System.out.print("명령) ");
             cmd = br.readLine();
 
-            if(cmd.contains("삭제") || cmd.contains("수정")){
-                cmd = splitDeleteOrModifyInformation(cmd);
-            }
+            Rq rq = new Rq(cmd);
 
-            switch (cmd) {
+            switch (rq.getPath()) {
                 case "등록":
-                    registerWiseSayings();
+                    registerWiseSayings(rq);
                     break;
                 case "목록":
-                    seeList();
+                    seeList(rq);
                     break;
                 case "삭제":
-                    if(idNum != 0){
-                        deleteList(idNum);
-                    }
+                    deleteList(rq);
                     break;
                 case "수정":
-                    if(idNum != 0){
-                        modifyList(idNum);
-                    }
+                    modifyList(rq);
                     break;
                 case "종료":
                     break outer;
@@ -50,24 +44,13 @@ public class App {
 
     }
 
+    private void modifyList(Rq rq) throws IOException {
 
-    private String splitDeleteOrModifyInformation(String cmd) {
-
-        String[] deleteOrModify = cmd.split("\\?");
-
-        if(cmd.contains("=")){
-            String[] arr = cmd.split("=");
-            idNum = Integer.parseInt(arr[1]);
-            cmd = deleteOrModify[0];
-            return cmd;
-        }
-        else{
-            return deleteOrModify[0];
+        if(idNum == 0) {
+            System.out.println("id를 입력해주세요");
+            return;
         }
 
-    }
-
-    private void modifyList(int idNum) throws IOException {
 
         for(int i = 0; i < wiseSayingList.size(); i++){
 
@@ -92,36 +75,54 @@ public class App {
 
     }
 
-    private void deleteList(int idNum) throws IOException {
+    private void deleteList(Rq rq) throws IOException {
+
+        int paramId = rq.getIntParam("id", 0);
+
+        if(paramId == 0) {
+            System.out.println("id를 입력해주세요");
+            return;
+        }
+
+        WiseSaying foundWiseSaying = null;
 
         for(int i = 0; i < wiseSayingList.size(); i++){
 
-            if(wiseSayingList.get(i).getIdx() == idNum){
-                wiseSayingList.remove(i);
-                System.out.println(idNum + "번 명언이 삭제되었습니다.");
-                idx--;
-                return;
+            WiseSaying wiseSaying = wiseSayingList.get(i);
+            if(wiseSaying.getIdx() == paramId){
+                foundWiseSaying = wiseSaying;
+                break;
             }
         }
 
-        System.out.println(idNum + "번 명언은 존재하지 않습니다..");
+        if(foundWiseSaying == null){
+            System.out.println(paramId + "번 명언은 존재하지 않습니다..");
+            return;
+        }
+
+        wiseSayingList.remove(foundWiseSaying);
+        System.out.println(paramId + "번 명언이 삭제되었습니다.");
+        idx--;
 
     }
 
 
-    private void seeList() {
+    private void seeList(Rq rq) {
 
         System.out.println("번호 / 작가 / 명언");
         System.out.println("--------------------------");
         for(int i = wiseSayingList.size()-1; i >= 0 ; i--){
-            System.out.println(wiseSayingList.get(i).getIdx() + " / " +
-                    wiseSayingList.get(i).getAuthor() + " / " +
-                    wiseSayingList.get(i).getContent());
+
+            WiseSaying wiseSaying = wiseSayingList.get(i);
+
+            System.out.println(wiseSaying.getIdx() + " / " +
+                    wiseSaying.getAuthor() + " / " +
+                    wiseSaying.getContent());
         }
 
     }
 
-    private void registerWiseSayings() throws IOException {
+    private void registerWiseSayings(Rq rq) throws IOException {
 
 
         System.out.print("명언: ");
@@ -129,11 +130,13 @@ public class App {
 
         System.out.print("작가: ");
         String author = br.readLine();
-        idx++;
 
-        wiseSayingList.add(new WiseSaying(idx, author, content));
+        int id = ++idx;
+        WiseSaying wiseSaying = new WiseSaying(id, author, content);
 
-        System.out.printf("%d번 명언이 등록되었습니다.\n", idx);
+        wiseSayingList.add(wiseSaying);
+
+        System.out.printf("%d번 명언이 등록되었습니다.\n", id);
 
     }
 
