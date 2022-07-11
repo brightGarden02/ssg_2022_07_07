@@ -8,7 +8,7 @@ public class App {
     private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private List<WiseSaying> wiseSayingList = new ArrayList<>();
     private int idx = 0;
-    String cmd;
+    private String cmd;
     public void run() throws IOException {
 
         System.out.println("== 명언 SSG ==");
@@ -35,6 +35,7 @@ public class App {
                     modifyList(rq);
                     break;
                 case "종료":
+                    System.out.println("명언 SSG를 종료합니다.");
                     break outer;
             }
         }
@@ -56,21 +57,25 @@ public class App {
             WiseSaying wiseSaying = wiseSayingList.get(i);
 
             if(wiseSaying.getIdx() == paramId){
-
-                System.out.print("새 명언을 입력해주세요: ");
-                String newContent = br.readLine();
-
-                System.out.println(paramId + "번 명언을 수정합니다.");
-                System.out.println("기존 명언 : " + wiseSayingList.get(i).getContent());
-
-                wiseSayingList.get(i).setContent(newContent);
-
-                System.out.println("새 명언 : " + wiseSayingList.get(i).getContent());
-                System.out.println(paramId + "번 명언이 수정되었습니다.");
+                inputNewContentAndPrintContents(paramId, i, wiseSaying);
                 return;
             }
         }
 
+    }
+
+    private void inputNewContentAndPrintContents(int paramId, int i, WiseSaying wiseSaying) throws IOException {
+
+        System.out.print("새 명언을 입력해주세요: ");
+        String newContent = br.readLine();
+
+        System.out.println(paramId + "번 명언을 수정합니다.");
+        System.out.println("기존 명언 : " + wiseSaying.getContent());
+
+        wiseSayingList.get(i).setContent(newContent);
+
+        System.out.println("새 명언 : " + wiseSaying.getContent());
+        System.out.println(paramId + "번 명언이 수정되었습니다.");
     }
 
     private void deleteList(Rq rq) throws IOException {
