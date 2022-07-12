@@ -50,32 +50,26 @@ public class App {
             System.out.println("id를 입력해주세요");
             return;
         }
+        WiseSaying foundWiseSaying = findById(paramId);
 
-
-        for(int i = 0; i < wiseSayingList.size(); i++){
-
-            WiseSaying wiseSaying = wiseSayingList.get(i);
-
-            if(wiseSaying.getIdx() == paramId){
-                inputNewContentAndPrintContents(paramId, i, wiseSaying);
-                return;
-            }
+        if(foundWiseSaying == null){
+            System.out.println(paramId +  "번 명언은 존재하지 않습니다.");
+            return;
         }
 
-    }
-
-    private void inputNewContentAndPrintContents(int paramId, int i, WiseSaying wiseSaying) throws IOException {
+        System.out.println("기존 명언 : " + foundWiseSaying.getContent());
 
         System.out.print("새 명언을 입력해주세요: ");
         String newContent = br.readLine();
 
         System.out.println(paramId + "번 명언을 수정합니다.");
-        System.out.println("기존 명언 : " + wiseSaying.getContent());
+        System.out.println("기존 명언 : " + foundWiseSaying.getContent());
 
-        wiseSayingList.get(i).setContent(newContent);
+        foundWiseSaying.setContent(newContent);
 
-        System.out.println("새 명언 : " + wiseSaying.getContent());
+        System.out.println("새 명언 : " + foundWiseSaying.getContent());
         System.out.println(paramId + "번 명언이 수정되었습니다.");
+
     }
 
     private void deleteList(Rq rq) throws IOException {
