@@ -16,11 +16,10 @@ public class Rq {
         String[] urlBits = url.split("\\?", 2);
         this.path = urlBits[0];
 
-
         queryParams = new HashMap<>();
 
-
         if(urlBits.length == 2){
+
             String queryStr = urlBits[1];
 
             String[] paramBits = queryStr.split("&");
@@ -39,8 +38,6 @@ public class Rq {
 
                 queryParams.put(paramName, paramValue);
             }
-
-
         }
 
     }

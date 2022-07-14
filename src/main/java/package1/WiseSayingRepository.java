@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WiseSayingRepository {
-
-
     public List<WiseSaying> wiseSayings;
     public int wiseSayingLastId;
 
