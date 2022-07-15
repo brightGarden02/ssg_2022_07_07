@@ -12,6 +12,30 @@ public class AppTest {
 
 
     @Test
+    public void 등록을_하면_명언과_작가를_물어본다() {
+
+        Scanner sc = TestUtil.genScanner("""
+                등록
+                나의 죽음을 적들에게 알리지 말라
+                이순신
+                종료
+                """);
+        ByteArrayOutputStream output = TestUtil.setOutToByteArray();
+
+        //실행
+        new App(sc).run();
+
+        String rs = output.toString();
+        TestUtil.clearSetOutToByteArray(output);
+
+
+        assertTrue(rs.contains("== 명언 SSG =="));
+        assertTrue(rs.contains("명령)"));
+
+    }
+
+
+    @Test
     public void 프로그램_시작시_타이틀_출력_그리고_종료()  {
 
         Scanner sc = TestUtil.genScanner("종료");
