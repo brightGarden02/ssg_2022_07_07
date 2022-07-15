@@ -1,15 +1,13 @@
 package package1;
 
-import java.io.*;
 import java.util.*;
 
 public class App {
     private Scanner sc;
-
-    public App(Scanner scanner) {
-        sc = new Scanner(System.in);
+    public App(Scanner sc) {
+        this.sc = sc;
     }
-    public void run() throws IOException {
+    public void run() {
 
         System.out.println("== 명언 SSG ==");
         WiseSayingController wiseSayingController = new WiseSayingController(sc);
@@ -36,7 +34,6 @@ public class App {
                     wiseSayingController.modify(rq);
                     break;
                 case "종료":
-                    System.out.println("명언 SSG를 종료합니다.");
                     break outer;
             }
         }
