@@ -84,4 +84,12 @@ public class WiseSayingTable {
                 .boxed()
                 .collect(Collectors.toList());
     }
+
+    public void removeById(int id){
+        String path = "%s/wise_saying/%d.json".formatted(baseDir, id);
+
+        new File(path).delete();
+    }
+
+
 }

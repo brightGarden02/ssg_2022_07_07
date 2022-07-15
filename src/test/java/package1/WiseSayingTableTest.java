@@ -65,4 +65,12 @@ public class WiseSayingTableTest {
 
     }
 
+    @Test
+    public void 삭제() {
+        wiseSayingTable.removeById(1);
+
+        WiseSaying wiseSaying = wiseSayingTable.findById(1);
+        assertEquals(null, wiseSaying);
+    }
+
 }
