@@ -72,10 +72,10 @@ public class WiseSayingController {
 
     public void write(Rq rq) {
 
-        System.out.print("명언: ");
+        System.out.print("명언 : ");
         String content = sc.nextLine().trim();
 
-        System.out.print("작가: ");
+        System.out.print("작가 : ");
         String author = sc.nextLine().trim();
 
         WiseSaying wiseSaying = wiseSayingRepository.add(content, author);
