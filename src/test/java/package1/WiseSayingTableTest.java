@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,6 +21,8 @@ public class WiseSayingTableTest {
     @BeforeEach
     public void beforeEach() {
         Util.file.deleteDir("test_data");
+
+        List<WiseSaying> wiseSayings = wiseSayingTable.findAll();
 
         wiseSayingTable.save("나에게 불가능이란 없다", "나폴레옹");
         wiseSayingTable.save("나의 죽음을 적들에게 알리지 마라", "이순신");
@@ -44,6 +47,21 @@ public class WiseSayingTableTest {
         assertEquals("나에게 불가능이란 없다", wiseSaying.content);
         assertEquals("나폴레옹", wiseSaying.author);
 
+    }
+
+    @Test
+    public void 전체조회() {
+        List<WiseSaying> wiseSayings = wiseSayingTable.findAll();
+
+        assertEquals(2, wiseSayings.size());
+        assertEquals(1, wiseSayings.get(0).id);
+        assertEquals("나에게 불가능이란 없다", wiseSayings.get(0).content);
+        assertEquals("나폴레옹", wiseSayings.get(0).author);
+
+
+        assertEquals(2, wiseSayings.get(1).id);
+        assertEquals("나의 죽음을 적들에게 알리지 마라", wiseSayings.get(1).content);
+        assertEquals("이순신", wiseSayings.get(1).author);
 
     }
 
