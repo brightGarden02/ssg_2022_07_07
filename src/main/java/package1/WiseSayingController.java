@@ -31,7 +31,7 @@ public class WiseSayingController {
 
         // 명언 객체를 찾지 못했으면 중지
         if(foundWiseSaying == null){
-            System.out.println(paramId +  "번 명언은 존재하지 않습니다.");
+            System.out.println(paramId +  "번 명언은 존재하지 않습니다");
             return;
         }
 
@@ -46,7 +46,7 @@ public class WiseSayingController {
 
         wiseSayingRepository.modify(paramId, newContent, newAuthor);
 
-        System.out.println(paramId + "번 명언이 수정되었습니다.");
+        System.out.println(paramId + "번 명언이 수정되었습니다");
 
     }
 
@@ -80,7 +80,7 @@ public class WiseSayingController {
 
         WiseSaying wiseSaying = wiseSayingRepository.add(content, author);
 
-        System.out.println(wiseSaying.id + "번 명언이 등록되었습니다.");
+        System.out.println(wiseSaying.id + "번 명언이 등록되었습니다");
 
     }
 
@@ -102,7 +102,7 @@ public class WiseSayingController {
 
         // 명언 객체를 찾지 못했으면 중지
         if(foundWiseSaying == null){
-            System.out.println(paramId + "번 명언은 존재하지 않습니다..");
+            System.out.println(paramId + "번 명언은 존재하지 않습니다");
             return;
         }
 
@@ -111,7 +111,7 @@ public class WiseSayingController {
         wiseSayingRepository.remove(paramId);
 
 
-        System.out.println(paramId + "번 명언이 삭제되었습니다.");
+        System.out.println(paramId + "번 명언이 삭제되었습니다");
 
     }
 
