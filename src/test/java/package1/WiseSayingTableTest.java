@@ -1,7 +1,9 @@
 package package1;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.io.File;
 import java.util.List;
@@ -9,19 +11,29 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+
 public class WiseSayingTableTest {
 
 
     private WiseSayingTable wiseSayingTable;
 
-    public WiseSayingTableTest() {
-        wiseSayingTable = new WiseSayingTable("test_data");
+//    public WiseSayingTableTest() {
+//        wiseSayingTable = new WiseSayingTable("test_data");
+//    }
+
+
+    @BeforeAll
+    public void beforeAll() {
+        App.mode = "test";
+        wiseSayingTable = new WiseSayingTable(App.getBaseDir());
     }
 
     @BeforeEach
     public void beforeEach() {
-        Util.file.deleteDir("test_data");
+//        Util.file.deleteDir("test_data");
 
+        Util.file.deleteDir(App.getBaseDir());
         List<WiseSaying> wiseSayings = wiseSayingTable.findAll();
 
         wiseSayingTable.save("나에게 불가능이란 없다", "나폴레옹");
@@ -35,7 +47,8 @@ public class WiseSayingTableTest {
 
         int newId = wiseSayingTable.getLastId() + 1;
         wiseSayingTable.save("자유가 아니면 죽음을 달라!", "패트릭 헨리");
-        assertTrue(new File("test_data/wise_saying/%d.json".formatted(newId)).exists());
+//        assertTrue(new File("test_data/wise_saying/%d.json".formatted(newId)).exists());
+        assertTrue(new File("%s/wise_saying/%d.json".formatted(App.getBaseDir(), newId)).exists());
 
     }
 
