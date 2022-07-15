@@ -1,11 +1,11 @@
 package package1;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Scanner;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AppTest {
 
@@ -19,8 +19,13 @@ public class AppTest {
 
     @Test
     public void 문자열을_파일에_저장() {
-        Util.file.saveToFile("1.txt", "안녕");
 
+        Util.file.mkdir("test_data");
+        Util.file.saveToFile("test_data/1.txt", "안녕");
+
+        String body = Util.file.readFromFile("test_data/1.txt");
+
+        assertEquals("안녕", body);
     }
 
 
