@@ -10,6 +10,29 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AppTest {
 
+    @Test
+    public void 등록_후_목록에서_확인할_수_있어야_한다() {
+
+        String rs = AppTestRunner.run("""
+                등록
+                나의 죽음을 적들에게 알리지 말라
+                이순신
+                등록
+                나에게 불가능이란 없다.
+                나폴레옹
+                목록
+                종료
+                """);
+
+
+        assertTrue(rs.contains("번호 / 작가 / 명언"));
+        assertTrue(rs.contains("--------------------------"));
+
+        assertTrue(rs.contains("2 / 나폴레옹 / 나에게 불가능이란 없다."));
+        assertTrue(rs.contains("1 / 이순신 / 나의 죽음을 적들에게 알리지 말라"));
+
+    }
+
 
     @Test
     public void 등록을_하면_생성된_명언의_번호가_출력되어야_한다() {
