@@ -126,59 +126,5 @@ public class Util {
 
 
     }
-
-    public static void mkdir (String path) {
-        File dir = new File(path);
-        dir.mkdirs();
-    }
-
-
-    public static String readFromFile(String path) {
-
-        try {
-            RandomAccessFile reader = new RandomAccessFile(path, "r");
-            String body = "";
-
-            String line = null;
-            while((line = reader.readLine()) != null) {
-                body += new String(line.getBytes("iso-8859-1"), "utf-8") + "\n";
-            }
-
-            return body.trim();
-        }
-        catch (IOException e){
-
-        }
-
-        return "";
-    }
-
-    public static Map<String ,Object> jsonToMap(String json) {
-
-        if(json.isEmpty()){
-            return null;
-        }
-
-        final String[] jsonBits = json
-                .replaceAll("\\{", "")
-                .replaceAll("\\}", "")
-                .split(",");
-
-
-        final List<Object> bits = Stream.of(jsonBits)
-                .map(String::trim)
-                .flatMap(bit -> Arrays.stream(bit.split(":")))
-                .map(String::trim)
-                .map(s -> s.startsWith("\"") ? s.substring(1, s.length() - 1) : Integer.parseInt(s))
-                .collect(Collectors.toList());
-
-        Map<String, Object> map = IntStream
-                .range(0, bits.size() / 2)
-                .mapToObj(i -> Pair.of((String) bits.get(i * 2), bits.get(i * 2 + 1)))
-                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue(), (key1, key2) -> key1, LinkedHashMap::new));
-
-        return map;
-    }
-
 }
 
