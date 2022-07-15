@@ -11,6 +11,31 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class AppTest {
 
     @Test
+    public void 명언을_수정할_수_있다() {
+
+        String rs = AppTestRunner.run("""
+                등록
+                나의 죽음을 적들에게 알리지 말라
+                이순신
+                등록
+                나에게 불가능이란 없다
+                나폴레옹
+                목록
+                수정?id=1
+                나의 죽음을 적들에게 알리지 마라!
+                이순신장군
+                목록
+                종료
+                """);
+
+
+        assertTrue(rs.contains("1 / 이순신 / 나의 죽음을 적들에게 알리지 말라"));
+        assertTrue(rs.contains("1 / 이순신장군 / 나의 죽음을 적들에게 알리지 마라!"));
+
+    }
+
+
+    @Test
     public void 명언을_삭제할_수_있다() {
 
         String rs = AppTestRunner.run("""
