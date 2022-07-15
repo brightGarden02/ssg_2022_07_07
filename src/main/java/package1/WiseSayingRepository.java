@@ -14,7 +14,7 @@ public class WiseSayingRepository {
         wiseSayingTable = new WiseSayingTable(App.getBaseDir());
     }
 
-    public WiseSaying findById(int paramId) {
+    public WiseSaying findById(int id) {
 
 //        for(WiseSaying wiseSaying : wiseSayings){
 //            if(wiseSaying.id == paramId){
@@ -24,7 +24,7 @@ public class WiseSayingRepository {
 //
 //        return null;
 
-        return wiseSayingTable.findById(paramId);
+        return wiseSayingTable.findById(id);
     }
 
 
@@ -46,7 +46,7 @@ public class WiseSayingRepository {
     }
 
 
-    public boolean remove(int paramId) {
+    public boolean remove(int id) {
 
 //        WiseSaying foundWiseSaying = findById(paramId);
 //        wiseSayings.remove(foundWiseSaying);
@@ -54,10 +54,10 @@ public class WiseSayingRepository {
 
         // delete file
 
-        return wiseSayingTable.removeById(paramId);
+        return wiseSayingTable.removeById(id);
     }
 
-    public boolean modify(int paramId, String content, String author){
+    public boolean modify(int id, String content, String author){
 
 //        WiseSaying foundWiseSaying = findById(paramId);
 //        foundWiseSaying.content = content;
@@ -65,6 +65,6 @@ public class WiseSayingRepository {
 
 
         // modify file
-        return wiseSayingTable.save(paramId, content, author);
+        return wiseSayingTable.save(id, content, author);
     }
 }

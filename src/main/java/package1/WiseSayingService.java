@@ -12,24 +12,13 @@ public class WiseSayingService {
     }
 
 
-    public void dumpToJson() {
-        List<WiseSaying> wiseSayings = wiseSayingRepository.findAll();
-
-        String json = "[" + wiseSayings
-                .stream()
-                .map(wiseSaying -> wiseSaying.toJson())
-                .collect(Collectors.joining(",")) + "]";
-
-        Util.file.saveToFile("%s/data.json".formatted(App.getBaseDir()), json);
-    }
-
     public WiseSaying findById(int paramId) {
         return wiseSayingRepository.findById(paramId);
 
     }
 
-    public boolean modify(int paramId, String newContent, String newAuthor) {
-        return wiseSayingRepository.modify(paramId, newContent, newAuthor);
+    public boolean modify(int id, String newContent, String newAuthor) {
+        return wiseSayingRepository.modify(id, newContent, newAuthor);
     }
 
 
@@ -43,5 +32,16 @@ public class WiseSayingService {
 
     public boolean remove(int paramId) {
         return wiseSayingRepository.remove(paramId);
+    }
+
+    public void dumpToJson() {
+        List<WiseSaying> wiseSayings = wiseSayingRepository.findAll();
+
+        String json = "[" + wiseSayings
+                .stream()
+                .map(wiseSaying -> wiseSaying.toJson())
+                .collect(Collectors.joining(",")) + "]";
+
+        Util.file.saveToFile("%s/data.json".formatted(App.getBaseDir()), json);
     }
 }
