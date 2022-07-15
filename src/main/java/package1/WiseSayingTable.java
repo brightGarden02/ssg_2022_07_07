@@ -29,7 +29,7 @@ public class WiseSayingTable {
         Util.file.saveToFile("%s/wise_saying/last_id.txt".formatted(baseDir), id + "");
     }
 
-    private int getLastId() {
+    public int getLastId() {
 
         String lastId = Util.file.readFromFile("%s/wise_saying/last_id.txt".formatted(baseDir), "");
 
