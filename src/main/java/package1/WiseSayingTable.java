@@ -1,5 +1,8 @@
 package package1;
 
+import java.io.File;
+import java.util.Map;
+
 public class WiseSayingTable {
 
     private String baseDir;
@@ -11,7 +14,7 @@ public class WiseSayingTable {
     public void save(WiseSaying wiseSaying) {
 
         Util.file.mkdir("%s/wise_saying".formatted(baseDir));
-        String body = "내용";
+        String body = wiseSaying.toJson();
 
         Util.file.saveToFile("%s/wise_saying/%d.json".formatted(baseDir, wiseSaying.id), body);
     }
@@ -38,6 +41,23 @@ public class WiseSayingTable {
         }
 
         return Integer.parseInt(lastId);
+    }
+
+    public WiseSaying findById(int id) {
+        String path = "%s/wise_saying/%d.json".formatted(baseDir, id);
+
+        if(new File(path).exists() == false){
+            return null;
+        }
+
+        Map<String, Object> map = Util.json.jsonToMapFromFile(path);
+
+        if(map == null){
+            return null;
+        }
+
+        return new WiseSaying((int) map.get("id"), (String) map.get("content"), (String) map.get("author"));
+
     }
 
 

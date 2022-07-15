@@ -22,4 +22,14 @@ public class WiseSaying {
                 '}';
     }
 
+    public String toJson() {
+        return """
+                {
+                    "id": %d,
+                    "content": "%s",
+                    "author": "%s"
+                }
+                """.stripIndent().formatted(id, content, author);
+    }
+
 }
