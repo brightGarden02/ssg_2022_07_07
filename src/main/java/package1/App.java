@@ -6,7 +6,7 @@ import java.util.*;
 public class App {
     private Scanner sc;
 
-    public App() {
+    public App(Scanner scanner) {
         sc = new Scanner(System.in);
     }
     public void run() throws IOException {

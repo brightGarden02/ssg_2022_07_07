@@ -12,7 +12,6 @@ public class WiseSayingRepository {
         wiseSayingLastId = 0;
     }
 
-
     public WiseSaying findById(int paramId) {
 
         for(WiseSaying wiseSaying : wiseSayings){
@@ -30,7 +29,7 @@ public class WiseSayingRepository {
         return wiseSayings;
     }
 
-    public WiseSaying write(String content, String author) {
+    public WiseSaying add(String content, String author) {
 
         int id = ++wiseSayingLastId;
         WiseSaying wiseSaying = new WiseSaying(id, content, author);

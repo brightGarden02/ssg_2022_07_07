@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class WiseSayingController {
-
     private Scanner sc;
     private WiseSayingRepository wiseSayingRepository;
 
@@ -79,7 +78,7 @@ public class WiseSayingController {
         System.out.print("작가: ");
         String author = sc.nextLine().trim();
 
-        WiseSaying wiseSaying = wiseSayingRepository.write(content, author);
+        WiseSaying wiseSaying = wiseSayingRepository.add(content, author);
 
         System.out.println(wiseSaying.id + "번 명언이 등록되었습니다.");
 
