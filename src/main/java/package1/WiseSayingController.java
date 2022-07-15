@@ -5,12 +5,13 @@ import java.util.Scanner;
 
 public class WiseSayingController {
     private Scanner sc;
-    private WiseSayingRepository wiseSayingRepository;
+//    private WiseSayingRepository wiseSayingRepository;
+    private WiseSayingService wiseSayingService;
 
     public WiseSayingController(Scanner sc) {
 
         this.sc = sc;
-        wiseSayingRepository = new WiseSayingRepository();
+        wiseSayingService = new WiseSayingService();
     }
 
 
@@ -26,7 +27,7 @@ public class WiseSayingController {
         }
 
         // URL에 입력된 id에 해당하는 명언객체 찾기
-        WiseSaying foundWiseSaying = wiseSayingRepository.findById(paramId);
+        WiseSaying foundWiseSaying = wiseSayingService.findById(paramId);
 
 
         // 명언 객체를 찾지 못했으면 중지
@@ -44,7 +45,7 @@ public class WiseSayingController {
         System.out.print("새 작가를 입력해주세요: ");
         String newAuthor = sc.nextLine();
 
-        wiseSayingRepository.modify(paramId, newContent, newAuthor);
+        wiseSayingService.modify(paramId, newContent, newAuthor);
 
         System.out.println(paramId + "번 명언이 수정되었습니다");
 
@@ -57,7 +58,7 @@ public class WiseSayingController {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("--------------------------");
 
-        List<WiseSaying> wiseSayings = wiseSayingRepository.findAll();
+        List<WiseSaying> wiseSayings = wiseSayingService.findAll();
 
         for(int i = wiseSayings.size()-1; i >= 0 ; i--){
 
@@ -78,7 +79,7 @@ public class WiseSayingController {
         System.out.print("작가 : ");
         String author = sc.nextLine().trim();
 
-        WiseSaying wiseSaying = wiseSayingRepository.add(content, author);
+        WiseSaying wiseSaying = wiseSayingService.write(content, author);
 
         System.out.println(wiseSaying.id + "번 명언이 등록되었습니다");
 
@@ -97,7 +98,7 @@ public class WiseSayingController {
 
 
         // URL에 입력된 id에 해당하는 명언객체 찾기
-        WiseSaying foundWiseSaying = wiseSayingRepository.findById(paramId);
+        WiseSaying foundWiseSaying = wiseSayingService.findById(paramId);
 
 
         // 명언 객체를 찾지 못했으면 중지
@@ -108,7 +109,7 @@ public class WiseSayingController {
 
 
         // 입력된 id에 해당하는 명언객체를 리스트에서 삭제
-        wiseSayingRepository.remove(paramId);
+        wiseSayingService.remove(paramId);
 
 
         System.out.println(paramId + "번 명언이 삭제되었습니다");
@@ -116,4 +117,7 @@ public class WiseSayingController {
     }
 
 
+    public void build(Rq rq) {
+        wiseSayingService.dumpToJson();
+    }
 }
