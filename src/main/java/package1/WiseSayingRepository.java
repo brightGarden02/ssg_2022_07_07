@@ -1,70 +1,120 @@
 package package1;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class WiseSayingRepository {
-//    public List<WiseSaying> wiseSayings;
-//    public int wiseSayingLastId;
 
-    private WiseSayingTable wiseSayingTable;
-    WiseSayingRepository() {
-//        wiseSayings = new ArrayList<>();
-//        wiseSayingLastId = 0;
-        wiseSayingTable = new WiseSayingTable(App.getBaseDir());
+
+    private String baseDir;
+
+    public WiseSayingRepository(String baseDir) {
+        this.baseDir = baseDir;
     }
 
     public WiseSaying findById(int id) {
+        String path = "%s/wise_saying/%d.json".formatted(baseDir, id);
 
-//        for(WiseSaying wiseSaying : wiseSayings){
-//            if(wiseSaying.id == paramId){
-//                return wiseSaying;
-//            }
-//        }
-//
-//        return null;
+        if(new File(path).exists() == false){
+            return null;
+        }
 
-        return wiseSayingTable.findById(id);
+        Map<String, Object> map = Util.json.jsonToMapFromFile(path);
+
+        if(map == null){
+            return null;
+        }
+
+        return new WiseSaying((int) map.get("id"), (String) map.get("content"), (String) map.get("author"));
+
     }
-
 
     public List<WiseSaying> findAll() {
+        List<Integer> fileIds = getFileIds();
 
-        return wiseSayingTable.findAll();
+        return fileIds
+                .stream()
+                .map(id -> findById(id))
+                .collect(Collectors.toList());
     }
 
-    public WiseSaying add(String content, String author) {
+    private List<Integer> getFileIds() {
 
-//        int id = ++wiseSayingLastId;
-//        WiseSaying wiseSaying = new WiseSaying(id, content, author);
-//        wiseSayings.add(wiseSaying);
+        String path = "%s/wise_saying".formatted(baseDir);
+        List<String> fileNames = Util.file.getFileNamesFromDir(path);
 
-        // store file
-
-//        return wiseSaying;
-        return wiseSayingTable.save(content, author);
+        return fileNames
+                .stream()
+                .filter(fileName -> !fileName.equals("last_id.txt"))
+                .map(fileName -> fileName.replace(".json", ""))
+                .mapToInt(Integer::parseInt)
+                .boxed()
+                .collect(Collectors.toList());
     }
 
 
-    public boolean remove(int id) {
+    public boolean removeById(int id){
+        String path = "%s/wise_saying/%d.json".formatted(baseDir, id);
 
-//        WiseSaying foundWiseSaying = findById(paramId);
-//        wiseSayings.remove(foundWiseSaying);
-//        wiseSayingLastId--;
-
-        // delete file
-
-        return wiseSayingTable.removeById(id);
+        new File(path).delete();
+        return true;
     }
+
+    public void save(WiseSaying wiseSaying) {
+
+        Util.file.mkdir("%s/wise_saying".formatted(baseDir));
+        String body = wiseSaying.toJson();
+
+        Util.file.saveToFile("%s/wise_saying/%d.json".formatted(baseDir, wiseSaying.id), body);
+    }
+
+    public WiseSaying save(String content, String author) {
+        int id = getLastId() + 1;
+
+        WiseSaying wiseSaying = new WiseSaying(id, content, author);
+        save(wiseSaying);
+
+        saveLastId(id);
+
+        return wiseSaying;
+    }
+
 
     public boolean modify(int id, String content, String author){
 
-//        WiseSaying foundWiseSaying = findById(paramId);
-//        foundWiseSaying.content = content;
-//        foundWiseSaying.author = author;
+        WiseSaying wiseSaying = new WiseSaying(id, content, author);
+        save(wiseSaying);
+
+        return true;
+    }
+
+    private void saveLastId(int id) {
+        Util.file.saveToFile("%s/wise_saying/last_id.txt".formatted(baseDir), id + "");
+    }
 
 
-        // modify file
-        return wiseSayingTable.save(id, content, author);
+    public int getLastId() {
+
+        String lastId = Util.file.readFromFile("%s/wise_saying/last_id.txt".formatted(baseDir), "");
+
+        if(lastId.isEmpty()){
+            return 0;
+        }
+
+        return Integer.parseInt(lastId);
+    }
+
+
+    public void dumpToJson() {
+        List<WiseSaying> wiseSayings = findAll();
+
+        String json = "[" + wiseSayings
+                .stream()
+                .map(wiseSaying -> wiseSaying.toJson())
+                .collect(Collectors.joining(",")) + "]";
+
+        Util.file.saveToFile("%s/data.json".formatted(App.getBaseDir()), json);
     }
 }
